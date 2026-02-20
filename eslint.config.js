@@ -1,10 +1,10 @@
-import js from "@eslint/js";
-import globals from "globals";
-import { defineConfig } from "eslint/config";
+import js from '@eslint/js';
+import globals from 'globals';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
-    files: ["webpack.*.js", "eslint.config.js"],
+    files: ['webpack.*.js', 'eslint.config.js', 'babel.config.js'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -12,20 +12,19 @@ export default defineConfig([
     },
   },
   {
-    files: ["**/*.{js,mjs,cjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
+    files: ['**/*.js'],
+    languageOptions: { globals: { ...globals.browser, ...globals.jest } },
   },
 
   {
     rules: {
-      "no-unused-vars": "warn",
-      "no-undef": "warn",
-      "no-console": "off",
+      ...js.configs.recommended.rules,
+      'no-unused-vars': 'warn',
+      'no-undef': 'error',
+      'no-console': 'off',
     },
   },
   {
-    ignores: ["dist/**", "node_modules/**"],
+    ignores: ['dist/**', 'node_modules/**'],
   },
 ]);
